@@ -26,12 +26,12 @@ class TagsRepository implements _ITagsRepository {
     int page = 1,
     int pageSize = 15,
   }) async {
-    final Map<String, dynamic> queryParameters = {
+    final Map<String, String> queryParameters = {
       'api-key': apiKey,
-      'section': section,
-      'page': page,
-      'page-size': pageSize,
-    }..removeWhere((_, dynamic value) => value == null);
+      'section': section ?? '',
+      'page': page.toString(),
+      'page-size': pageSize.toString(),
+    }..removeWhere((_, String value) => value.isEmpty);
     return await compute<ApiProviderModel, List<TagsModel>>(
       _parseFetchAllTags,
       ApiProviderModel(
@@ -44,7 +44,7 @@ class TagsRepository implements _ITagsRepository {
 }
 
 Future<List<TagsModel>> _parseFetchAllTags(ApiProviderModel request) async {
-  final ApiProvider provider = ApiProvider();
+  final provider = ApiProvider();
   final result = await provider.makeGetRequest(
     request.baseURL,
     request.endpoint,

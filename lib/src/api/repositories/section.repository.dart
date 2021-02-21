@@ -22,10 +22,10 @@ class SectionRepository implements _ISectionRepository {
     String apiKey, {
     String? query,
   }) async {
-    final Map<String, dynamic> queryParameters = {
+    final Map<String, String> queryParameters = {
       'api-key': apiKey,
-      'q': query,
-    }..removeWhere((_, dynamic value) => value == null);
+      'q': query ?? '',
+    }..removeWhere((_, String value) => value.isEmpty);
     return await compute<ApiProviderModel, List<SectionModel>>(
       _parseFetchSections,
       ApiProviderModel(

@@ -8,7 +8,7 @@ class ApiProvider {
   Future<String?> makeGetRequest(
     String baseURL,
     String endpoint, {
-    Map<String, dynamic>? queryParams,
+    Map<String, String>? queryParams,
   }) async {
     final uri = Uri.https(baseURL, endpoint, queryParams);
     final request = await _client.getUrl(uri)
@@ -28,7 +28,7 @@ class ApiProvider {
 class ApiProviderModel {
   final String baseURL;
   final String endpoint;
-  final Map<String, dynamic>? queryParams;
+  final Map<String, String>? queryParams;
 
   const ApiProviderModel(
     this.baseURL,

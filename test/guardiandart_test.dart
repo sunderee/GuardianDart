@@ -26,10 +26,9 @@ void main() {
     test('tags repository', () async {
       final tags = await tagsRepository.fetchAllTags(
         apiKey,
-        page: 4,
+        page: 1,
         pageSize: 11,
       );
-      print(tags.map((e) => e.id));
 
       expect(tags.length, 11);
     });
