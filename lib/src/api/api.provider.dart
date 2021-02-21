@@ -2,12 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 class ApiProvider {
-  static final ApiProvider _instance = ApiProvider._();
   static final String BASE_URL = 'content.guardianapis.com';
   final HttpClient _client = HttpClient();
-
-  ApiProvider._();
-  factory ApiProvider.instance() => _instance;
 
   Future<String?> makeGetRequest(
     String baseURL,

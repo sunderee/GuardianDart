@@ -38,7 +38,7 @@ class SectionRepository implements _ISectionRepository {
 }
 
 Future<List<SectionModel>> _parseFetchSections(ApiProviderModel request) async {
-  final provider = ApiProvider.instance();
+  final provider = ApiProvider();
   final result = await provider.makeGetRequest(
     request.baseURL,
     request.endpoint,

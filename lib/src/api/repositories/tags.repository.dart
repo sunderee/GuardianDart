@@ -44,7 +44,7 @@ class TagsRepository implements _ITagsRepository {
 }
 
 Future<List<TagsModel>> _parseFetchAllTags(ApiProviderModel request) async {
-  final ApiProvider provider = ApiProvider.instance();
+  final ApiProvider provider = ApiProvider();
   final result = await provider.makeGetRequest(
     request.baseURL,
     request.endpoint,
