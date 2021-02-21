@@ -5,7 +5,10 @@ import 'package:guardiandart/src/api/models/section.model.dart';
 import 'package:guardiandart/src/utils/isolate.utils.dart';
 
 abstract class _ISectionRepository {
-  Future<List<SectionModel>> fetchSections(String apiKey, {String? query});
+  Future<List<SectionModel>> fetchSections(
+    String apiKey, {
+    String? query,
+  });
 }
 
 class SectionRepository implements _ISectionRepository {
@@ -19,10 +22,10 @@ class SectionRepository implements _ISectionRepository {
     String apiKey, {
     String? query,
   }) async {
-    final Map<String, String> queryParameters = {
+    final Map<String, dynamic> queryParameters = {
       'api-key': apiKey,
-      'q': query ?? '',
-    }..removeWhere((_, String value) => value.isEmpty);
+      'q': query,
+    }..removeWhere((_, dynamic value) => value == null);
     return await compute<ApiProviderModel, List<SectionModel>>(
       _parseFetchSections,
       ApiProviderModel(
