@@ -10,6 +10,7 @@ class SearchModel {
   bool? isHosted;
   String? pillarId;
   String? pillarName;
+  ArticleContents? contents;
 
   SearchModel._({
     this.id,
@@ -23,6 +24,7 @@ class SearchModel {
     this.isHosted,
     this.pillarId,
     this.pillarName,
+    this.contents,
   });
 
   factory SearchModel.fromJson(Map<String, dynamic> json) => SearchModel._(
@@ -37,5 +39,16 @@ class SearchModel {
         isHosted: json['isHosted'],
         pillarId: json['pillarId'],
         pillarName: json['pillarName'],
+        contents: ArticleContents(
+          json['fields']['headline'],
+          json['fields']['body'],
+        ),
       );
+}
+
+class ArticleContents {
+  final String headline;
+  final String body;
+
+  ArticleContents(this.headline, this.body);
 }
