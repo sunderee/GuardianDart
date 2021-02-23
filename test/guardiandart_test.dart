@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:guardiandart/src/api/repositories/search.repository.dart';
 import 'package:guardiandart/src/api/repositories/section.repository.dart';
 import 'package:guardiandart/src/api/repositories/tags.repository.dart';
+import 'package:guardiandart/src/utils/enums.utils.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -11,6 +13,7 @@ void main() {
     final apiKey = 'test';
     final sectionsRepository = SectionRepository.instance();
     final tagsRepository = TagsRepository.instance();
+    final searchRepository = SearchRepository.instance();
 
     test('sections repository', () async {
       final sections = await sectionsRepository.fetchSections(apiKey);
@@ -31,6 +34,16 @@ void main() {
       );
 
       expect(tags.length, 11);
+    });
+
+    test('search repository', () async {
+      final searches = await searchRepository.fetchSearches(
+        apiKey,
+        pageSize: 5,
+        showElements: ShowElementsEnum.VIDEO,
+      );
+
+      expect(searches.length, 5);
     });
   });
 }
