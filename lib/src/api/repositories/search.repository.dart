@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:guardiandart/src/api/api.provider.dart';
 import 'package:guardiandart/src/api/models/search.model.dart';
 import 'package:guardiandart/src/utils/datetime.extension.dart';
 import 'package:guardiandart/src/utils/enums.utils.dart';
+import 'package:guardiandart/src/utils/isolate.utils.dart';
 
 abstract class _ISearchRepository {
   Future<List<SearchModel>> fetchSearches(
@@ -57,6 +61,28 @@ class SearchRepository implements _ISearchRepository {
       'from-date': fromDate?.formattedDate ?? '',
       'to-date': toDate?.formattedDate ?? '',
     }..removeWhere((_, String value) => value.isEmpty);
-    return <SearchModel>[];
+    return await compute<ApiProviderModel, List<SearchModel>>(
+      _parseFetchAllTags,
+      ApiProviderModel(
+        ApiProvider.BASE_URL,
+        'search',
+        queryParams: queryParameters,
+      ),
+    );
   }
+}
+
+Future<List<SearchModel>> _parseFetchAllTags(ApiProviderModel request) async {
+  final provider = ApiProvider();
+  final result = await provider.makeGetRequest(
+    request.baseURL,
+    request.endpoint,
+    queryParams: request.queryParams,
+  );
+  return result != null
+      ? (json.decode(result)['response']['results'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .map((element) => SearchModel.fromJson(element))
+          .toList()
+      : <SearchModel>[];
 }
