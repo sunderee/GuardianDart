@@ -39,10 +39,12 @@ class SearchModel {
         isHosted: json['isHosted'],
         pillarId: json['pillarId'],
         pillarName: json['pillarName'],
-        contents: ArticleContents(
-          json['fields']['headline'],
-          json['fields']['body'],
-        ),
+        contents: json['fields'] != null
+            ? ArticleContents(
+                json['fields']['headline'],
+                json['fields']['body'],
+              )
+            : null,
       );
 }
 
